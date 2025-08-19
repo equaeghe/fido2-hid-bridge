@@ -196,7 +196,7 @@ class CTAPHIDDevice:
                     0x01,  # device version major
                     0x00,  # device version minor
                     0x00,  # device version build/point
-                    ctap.capabilities,  # capabilities, from the underlying device
+                    0x00,# ctap.capabilities,  # capabilities, from the underlying device
                 ]
             )
         else:
