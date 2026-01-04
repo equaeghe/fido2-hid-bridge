@@ -7,7 +7,10 @@ from typing import Optional, Callable, Dict, Tuple, List
 from uhid import UHIDDevice, _ReportType, AsyncioBlockingUHID, Bus
 import fido2
 from fido2.pcsc import CtapDevice, CTAPHID, CtapError, CtapPcscDevice
-from smartcard.pcsc.PCSCContext import PCSCContext
+try:
+    from smartcard.pcsc.PCSCContext import PCSCContext
+except:
+    PCSCContext = None
 from smartcard.scard import SCardReleaseContext
 
 SECONDS_TO_WAIT_FOR_AUTHENTICATOR = 10
@@ -119,7 +122,7 @@ class CTAPHIDDevice:
                     self.chosen_device.close()
 
                 # Release the PCSC context handle (actually closes the socket)
-                if PCSCContext.instance is not None:
+                if PCSCContext is not None and PCSCContext.instance is not None:
                     ctx = PCSCContext.instance
                     if hasattr(ctx, 'hcontext') and ctx.hcontext is not None:
                         SCardReleaseContext(ctx.hcontext)
